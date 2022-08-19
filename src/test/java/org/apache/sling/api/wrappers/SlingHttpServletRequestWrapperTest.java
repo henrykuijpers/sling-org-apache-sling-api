@@ -35,7 +35,8 @@ public class SlingHttpServletRequestWrapperTest {
             .thenAnswer(invocationOnMock ->
                 new MyModel(((SlingHttpServletRequest)invocationOnMock.getArgument(0)).getRequestURI()));
         SlingAdaptable.setAdapterManager(adapterManager);
-        when(request.adaptTo(MyModel.class)).thenReturn(new MyModel("Failure - The wrapper should be calling the AdapterManager"));
+        when(request.adaptTo(MyModel.class)).thenAnswer(invocationOnMock ->
+            adapterManager.getAdapter(invocationOnMock.getMock(), MyModel.class));
         when(request.getRequestURI()).thenReturn("/test");
 
         final MyModel result = underTest.adaptTo(MyModel.class);
