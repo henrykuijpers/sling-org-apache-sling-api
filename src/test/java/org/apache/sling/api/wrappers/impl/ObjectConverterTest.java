@@ -311,4 +311,12 @@ public class ObjectConverterTest {
         assertTrue(ObjectConverter.convert(value, Boolean.class));
         assertEquals("true", ObjectConverter.convert(value, String.class));
     }
+
+    @Test
+    public void testCalendarWithTimeZone() throws Exception {
+        final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+2"));
+        calendar.set(2022, Calendar.AUGUST, 19, 11, 46, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        assertEquals("2022-08-19T11:46:00.000+02:00", ObjectConverter.convert(calendar, String.class));
+    }
 }
